@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TERMINAL - MILOS TRIVIA</title>
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div id="overlay">
+        <div class="terminal-content">
+            <h1 id="typewriter-text" class="neon-text"></h1>
+            <button id="btn-deploy" class="hidden">[ INICIAR PROTOCOLO ]</button>
+        </div>
+    </div>
+
+    <header id="game-ui" class="hidden">
+        <div id="top-controls">
+            <label class="vol-label" title="Volumen General">
+                VOL: <input type="range" id="volume-slider" min="0" max="1" step="0.01" value="0.5">
+            </label>
+            <button id="btn-neon-toggle" class="btn-neon-tiny">BORDE NEÓN: OFF</button>
+        </div>
+        
+        <div class="main-controls">
+            <button id="start-game-btn" class="btn-neon-small">INICIAR TRIVIA</button>
+            <div id="timer-container">TIEMPO: <span id="timer-count">180</span>s</div>
+        </div>
+    </header>
+
+    <main id="milos-grid" class="hidden">
+        <div class="milos-frame" id="bg-1">
+            <div class="milos-card" onclick="flipCard(this)">
+                <div class="milos-front">
+                    <video class="milos-v" loop muted playsinline><source src="assets/listo_9.mp4" type="video/mp4"></video>
+                </div>
+                <div class="milos-back">
+                    <div class="quiz-box" onclick="event.stopPropagation()">
+                        <p>¿Canción?</p>
+                        <div class="progress-container"><div class="progress-bar" id="pb-1"></div></div>
+                        <div class="options">
+                            <label><input type="radio" name="q1" value="A"> Maomeno</label>
+                            <label><input type="radio" name="q1" value="B"> Beso en la boca</label>
+                            <label><input type="radio" name="q1" value="C"> Yo quiero bailar</label>
+                        </div>
+                        <button class="btn-send" onclick="lockCard(this, 1)">ENVIAR</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="milos-frame" id="bg-2">
+            <div class="milos-card" onclick="flipCard(this)">
+                <div class="milos-front">
+                    <video class="milos-v" loop muted playsinline><source src="assets/listo_9.mp4" type="video/mp4"></video>
+                </div>
+                <div class="milos-back">
+                    <div class="quiz-box" onclick="event.stopPropagation()">
+                        <p>¿Canción?</p>
+                        <div class="progress-container"><div class="progress-bar" id="pb-2"></div></div>
+                        <div class="options">
+                            <label><input type="radio" name="q2" value="A"> Always on my mind</label>
+                            <label><input type="radio" name="q2" value="B"> Domino Dancing</label>
+                            <label><input type="radio" name="q2" value="C"> You Spin Me Round</label>
+                        </div>
+                        <button class="btn-send" onclick="lockCard(this, 2)">ENVIAR</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="milos-frame" id="bg-3">
+            <div class="milos-card" onclick="flipCard(this)">
+                <div class="milos-front">
+                    <video class="milos-v" loop muted playsinline><source src="assets/listo_9.mp4" type="video/mp4"></video>
+                </div>
+                <div class="milos-back">
+                    <div class="quiz-box" onclick="event.stopPropagation()">
+                        <p>¿Canción?</p>
+                        <div class="progress-container"><div class="progress-bar" id="pb-3"></div></div>
+                        <div class="options">
+                            <label><input type="radio" name="q3" value="A"> El preso</label>
+                            <label><input type="radio" name="q3" value="B"> Rebelión</label>
+                            <label><input type="radio" name="q3" value="C"> Pa' Bravo yo</label>
+                        </div>
+                        <button class="btn-send" onclick="lockCard(this, 3)">ENVIAR</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="milos-frame" id="bg-4">
+            <div class="milos-card" onclick="flipCard(this)">
+                <div class="milos-front">
+                    <video class="milos-v" loop muted playsinline><source src="assets/listo_9.mp4" type="video/mp4"></video>
+                </div>
+                <div class="milos-back">
+                    <div class="quiz-box" onclick="event.stopPropagation()">
+                        <p>¿Canción?</p>
+                        <div class="progress-container"><div class="progress-bar" id="pb-4"></div></div>
+                        <div class="options">
+                            <label><input type="radio" name="q4" value="A"> Borro Cassette</label>
+                            <label><input type="radio" name="q4" value="B"> Obsesión</label>
+                            <label><input type="radio" name="q4" value="C"> El Perdedor</label>
+                        </div>
+                        <button class="btn-send" onclick="lockCard(this, 4)">ENVIAR</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="milos-frame" id="bg-5">
+            <div class="milos-card" onclick="flipCard(this)">
+                <div class="milos-front">
+                    <video class="milos-v" loop muted playsinline><source src="assets/listo_9.mp4" type="video/mp4"></video>
+                </div>
+                <div class="milos-back">
+                    <div class="quiz-box" onclick="event.stopPropagation()">
+                        <p>¿Canción?</p>
+                        <div class="progress-container"><div class="progress-bar" id="pb-5"></div></div>
+                        <div class="options">
+                            <label><input type="radio" name="q5" value="A"> La Marcha de Homero</label>
+                            <label><input type="radio" name="q5" value="B"> Homero Homero</label>
+                            <label><input type="radio" name="q5" value="C"> Homers March</label>
+                        </div>
+                        <button class="btn-send" onclick="lockCard(this, 5)">ENVIAR</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="milos-frame" id="bg-6">
+            <div class="milos-card" onclick="flipCard(this)">
+                <div class="milos-front">
+                    <video class="milos-v" loop muted playsinline><source src="assets/listo_9.mp4" type="video/mp4"></video>
+                </div>
+                <div class="milos-back">
+                    <div class="quiz-box" onclick="event.stopPropagation()">
+                        <p>¿Canción?</p>
+                        <div class="progress-container"><div class="progress-bar" id="pb-6"></div></div>
+                        <div class="options">
+                            <label><input type="radio" name="q6" value="A"> Baby one more time</label>
+                            <label><input type="radio" name="q6" value="B"> Toxic</label>
+                            <label><input type="radio" name="q6" value="C"> Womanizer</label>
+                        </div>
+                        <button class="btn-send" onclick="lockCard(this, 6)">ENVIAR</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="milos-frame" id="bg-7">
+            <div class="milos-card" onclick="flipCard(this)">
+                <div class="milos-front">
+                    <video class="milos-v" loop muted playsinline><source src="assets/listo_9.mp4" type="video/mp4"></video>
+                </div>
+                <div class="milos-back">
+                    <div class="quiz-box" onclick="event.stopPropagation()">
+                        <p>¿Canción?</p>
+                        <div class="progress-container"><div class="progress-bar" id="pb-7"></div></div>
+                        <div class="options">
+                            <label><input type="radio" name="q7" value="A"> Cuando Volveras</label>
+                            <label><input type="radio" name="q7" value="B"> Todavia Me Amas</label>
+                            <label><input type="radio" name="q7" value="C"> Enseñame a olvidar</label>
+                        </div>
+                        <button class="btn-send" onclick="lockCard(this, 7)">ENVIAR</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="milos-frame" id="bg-8">
+            <div class="milos-card" onclick="flipCard(this)">
+                <div class="milos-front">
+                    <video class="milos-v" loop muted playsinline><source src="assets/listo_9.mp4" type="video/mp4"></video>
+                </div>
+                <div class="milos-back">
+                    <div class="quiz-box" onclick="event.stopPropagation()">
+                        <p>¿Canción?</p>
+                        <div class="progress-container"><div class="progress-bar" id="pb-8"></div></div>
+                        <div class="options">
+                            <label><input type="radio" name="q8" value="A"> 紅蓮の弓矢</label>
+                            <label><input type="radio" name="q8" value="B"> 微笑みの爆弾</label>
+                            <label><input type="radio" name="q8" value="C"> 狂乱</label>
+                        </div>
+                        <button class="btn-send" onclick="lockCard(this, 8)">ENVIAR</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="milos-frame" id="bg-9">
+            <div class="milos-card" onclick="flipCard(this)">
+                <div class="milos-front">
+                    <video class="milos-v" loop muted playsinline><source src="assets/listo_9.mp4" type="video/mp4"></video>
+                </div>
+                <div class="milos-back">
+                    <div class="quiz-box" onclick="event.stopPropagation()">
+                        <p>¿Canción?</p>
+                        <div class="progress-container"><div class="progress-bar" id="pb-9"></div></div>
+                        <div class="options">
+                            <label><input type="radio" name="q9" value="A"> Given up</label>
+                            <label><input type="radio" name="q9" value="B"> Monster</label>
+                            <label><input type="radio" name="q9" value="C"> The kids Aren't Alright</label>
+                        </div>
+                        <button class="btn-send" onclick="lockCard(this, 9)">ENVIAR</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <div id="results-screen" class="hidden final-overlay results-neon">
+        <h1>RESULTADOS</h1>
+        <div id="score-display">0 / 9</div>
+        <div id="prize-zone"></div>
+        <button id="btn-restart-results" class="btn-neon">REINTENTAR (1)</button>
+    </div>
+
+    <div id="timeout-screen" class="hidden final-overlay">
+        <div class="spotlight"><div class="sad-clock"></div></div>
+        <h2 class="neon-text-blue">TIEMPO AGOTADO</h2>
+        <button id="btn-restart-timeout" class="btn-neon">ÚLTIMO INTENTO</button>
+    </div>
+
+    <audio id="milos-audio-bg" loop preload="auto" src="assets/musica.mp3"></audio>
+    <audio id="trivia-audio" preload="auto"></audio>
+
+    <script src="script.js"></script>
+</body>
+</html>

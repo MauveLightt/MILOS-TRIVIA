@@ -1,0 +1,141 @@
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body, html {
+    background: #000000;
+    color: #0f0;
+    font-family: 'Consolas', 'Courier New', monospace;
+    overflow-y: auto; 
+    overflow-x: hidden;
+    width: 100%; 
+    min-height: 100vh; 
+}
+
+/* INTERFAZ SUPERIOR Y CONTROLES NEÓN */
+#game-ui {
+    display: flex; flex-direction: column; gap: 10px; align-items: center; justify-content: center;
+    background: #050505; border-bottom: 1px solid #00ffff;
+    padding: 15px; z-index: 100;
+}
+
+#top-controls {
+    display: flex; gap: 20px; align-items: center; justify-content: space-between;
+    width: 100%; max-width: 900px;
+}
+
+.main-controls {
+    display: flex; gap: 30px; align-items: center; justify-content: center;
+    width: 100%; font-size: 1.2rem;
+}
+
+/* BOTONES Y SLIDER DE VOLUMEN */
+.btn-neon-small, .btn-neon-tiny {
+    background: transparent; color: #00ffff; border: 1px solid #00ffff;
+    cursor: pointer; font-family: 'Consolas', monospace; text-transform: uppercase;
+    box-shadow: 0 0 8px rgba(0,255,255,0.3); transition: all 0.2s ease;
+}
+.btn-neon-small { padding: 8px 20px; font-size: 1rem; }
+.btn-neon-tiny { padding: 4px 10px; font-size: 0.75rem; }
+.btn-neon-small:hover, .btn-neon-tiny:hover { background: #00ffff; color: #000; box-shadow: 0 0 15px rgba(0,255,255,0.8); }
+
+.vol-label { font-size: 0.8rem; display: flex; align-items: center; gap: 8px; color: #00ffff;}
+input[type=range] {
+    -webkit-appearance: none; appearance: none; width: 100px; background: transparent; 
+}
+input[type=range]:focus { outline: none; }
+input[type=range]::-webkit-slider-runnable-track {
+    width: 100%; height: 4px; cursor: pointer; background: #005555; border-radius: 2px;
+}
+input[type=range]::-webkit-slider-thumb {
+    height: 12px; width: 12px; border-radius: 50%; background: #00ffff;
+    cursor: pointer; -webkit-appearance: none; margin-top: -4px; box-shadow: 0 0 10px #00ffff;
+}
+
+#overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: #0C0C0C; z-index: 9999; display: flex; align-items: center; justify-content: center; transition: opacity 0.5s; }
+.neon-text { color: #00ffff; text-shadow: 0 0 10px #00ffff; font-size: clamp(1rem, 4vw, 1.5rem); text-align: center; }
+
+/* GRILLA RESPONSIVA (2 MÓVIL / 3 PC) */
+#milos-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr); /* MÓVIL por defecto */
+    gap: 15px; padding: 15px; width: 100%; max-width: 900px; margin: 20px auto; height: auto; 
+    transition: all 0.3s ease;
+}
+
+/* OPCIÓN A: BORDE NEÓN ACTIVABLE */
+.neon-border-active {
+    border: 1px solid #00ffff;
+    box-shadow: 0 0 20px rgba(0, 255, 255, 0.15), inset 0 0 15px rgba(0, 255, 255, 0.1);
+    border-radius: 8px;
+    padding: 20px !important;
+}
+
+@media (min-width: 768px) {
+    #milos-grid { grid-template-columns: repeat(3, 1fr); /* PC = 3 Columnas */ }
+}
+
+.milos-frame { perspective: 1000px; width: 100%; aspect-ratio: 3 / 4; }
+.milos-card { width: 100%; height: 100%; position: relative; transform-style: preserve-3d; transition: transform 0.6s ease; cursor: pointer; }
+.milos-card.flipped { transform: rotateY(180deg); }
+.milos-card.locked { opacity: 0.5; filter: grayscale(1); }
+
+.milos-front, .milos-back { position: absolute; width: 100%; height: 100%; backface-visibility: hidden; border: 1px solid rgba(0, 255, 255, 0.2); border-radius: 4px; }
+.milos-front { background: rgb(12, 12, 12); display: flex; align-items: center; justify-content: center; }
+.milos-back { transform: rotateY(180deg); background: #1a1a1a; display: flex; flex-direction: column; align-items: center; justify-content: center; color: #fff; padding: 5px; }
+
+@keyframes shake-card {
+    0%, 100% { transform: rotateY(180deg) translate(0); }
+    20% { transform: rotateY(180deg) translate(-3px, 3px); }
+    40% { transform: rotateY(180deg) translate(-3px, -3px); }
+    60% { transform: rotateY(180deg) translate(3px, 3px); }
+    80% { transform: rotateY(180deg) translate(3px, -3px); }
+}
+
+.milos-card.correct { pointer-events: none; }
+.milos-card.correct .milos-back { border-color: #0f0 !important; box-shadow: 0 0 25px #0f0; animation: shake-card 0.4s ease-in-out; }
+.milos-card.incorrect { pointer-events: none; }
+.milos-card.incorrect .milos-back { border-color: #f00 !important; box-shadow: 0 0 25px #f00; animation: shake-card 0.4s ease-in-out; }
+
+.milos-v { width: 100%; height: 100%; object-fit: cover; mix-blend-mode: screen; filter: contrast(1.1) brightness(1.1); border-radius: 4px; }
+
+.quiz-box { width: 100%; text-align: center; }
+.quiz-box p { font-size: clamp(0.7rem, 2vw, 1rem); margin-bottom: 5px; }
+
+.progress-container { width: 80%; height: 12px; background: #000; margin: 8px auto; border: 2px solid #fff; padding: 2px; box-shadow: 2px 2px 0px #ff00ff; }
+.progress-bar { width: 0%; height: 100%; background: #ff00ff; }
+.options { display: flex; flex-direction: column; gap: 2px; margin-bottom: 8px; }
+.options label { font-size: clamp(0.6rem, 1.5vw, 0.85rem); cursor: pointer; }
+.btn-send { background: transparent; border: 1px solid #00ffff; color: #00ffff; padding: 4px 12px; cursor: pointer; font-size: 0.8rem; box-shadow: 0 0 5px #00ffff; }
+
+.final-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: #000; z-index: 10000; display: flex; flex-direction: column; align-items: center; justify-content: center; overflow-y: auto; padding: 20px;}
+.results-neon h1 { color: #ff00ff; text-shadow: 0 0 20px #ff00ff; font-size: clamp(2rem, 8vw, 4rem); margin-bottom: 10px;}
+#score-display { font-size: clamp(3rem, 10vw, 5rem); color: #00ffff; text-shadow: 0 0 20px #00ffff; margin-bottom: 10px;}
+
+#prize-zone { margin: 10px 0; text-align: center; display: flex; flex-direction: column; align-items: center; gap: 15px;}
+.prize-media img, .prize-media video { max-width: 280px; border-radius: 4px; box-shadow: 0 0 15px rgba(255, 255, 255, 0.2); }
+.pixel-text { font-family: 'Press Start 2P', monospace; font-size: 0.65rem; line-height: 1.5; text-shadow: 2px 2px 0 #000; }
+
+.spotlight { width: 100%; height: 60%; background: radial-gradient(circle at center, rgba(255,255,255,0.15) 0%, #000 70%); display: flex; align-items: center; justify-content: center; }
+
+/* Separamos las propiedades del fondo para que no falle en ningún navegador */
+.sad-clock { 
+    width: clamp(150px, 50vw, 250px); 
+    height: clamp(150px, 50vw, 250px); 
+    background-image: url('assets/sad_clock.jpg'); 
+    background-position: center;
+    background-size: contain;
+    background-repeat: no-repeat;
+    image-rendering: pixelated; 
+}
+
+/* Agregamos el estilo neón azul que faltaba para el texto */
+.neon-text-blue { 
+    color: #00ffff; 
+    text-shadow: 0 0 15px #00ffff; 
+    font-size: clamp(2rem, 6vw, 4rem); 
+    text-align: center; 
+    margin: 15px 0; 
+    font-family: 'Consolas', monospace; 
+}
+
+.btn-neon { background: transparent; border: 2px solid #00ffff; color: #00ffff; padding: 10px 20px; cursor: pointer; margin-top: 20px; box-shadow: 0 0 10px #00ffff; font-family: 'Consolas', monospace;}
+.hidden { display: none !important; }
