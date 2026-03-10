@@ -43,14 +43,22 @@ btnNeonToggle.addEventListener('click', () => {
 });
 
 // NUEVO: DETECTAR SI EL USUARIO MINIMIZA LA APP/PESTAÑA
+// DETECTAR SI EL USUARIO MINIMIZA LA APP/PESTAÑA
 document.addEventListener("visibilitychange", () => {
     if (document.hidden) {
+        // Silencio total al minimizar o cambiar de pestaña
         bgAudio.pause();
         triviaAudio.pause();
     } else {
-        // Solo reanudar si el juego ya estaba en curso y no hay una carta en reproducción de trivia
-        if (triviaIniciada && !document.querySelector('.milos-card.flipped')) {
-            bgAudio.play().catch(e => {});
+        // Al regresar, verificamos en qué estado se quedó el juego
+        if (triviaIniciada) {
+            if (document.querySelector('.milos-card.flipped')) {
+                // Si hay una carta abierta, reanudamos la canción de la trivia
+                triviaAudio.play().catch(e => { console.log("Autoplay bloqueado al regresar"); });
+            } else {
+                // Si estamos viendo la cuadrícula normal, reanudamos la música de fondo
+                bgAudio.play().catch(e => { console.log("Autoplay bloqueado al regresar"); });
+            }
         }
     }
 });
