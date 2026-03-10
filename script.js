@@ -216,7 +216,7 @@ function finalizar(modo) {
 
         if (score === 9) { 
             prizeZone.innerHTML = `
-                <p class='neon-text' style='color:#ff00ff;'>¡PERFECTO! Eres increíble, bb. 💖</p>
+                <p class='neon-text' style='color:#ff00ff;'>¡PERFECTO!</p>
                 <div class="prize-media">
                     <video src="assets/pantalla.mp4" controls style="border: 3px solid #ff00ff;"></video>
                 </div>
@@ -224,7 +224,7 @@ function finalizar(modo) {
             `;
         } else if (score >= 7) { 
             prizeZone.innerHTML = `
-                <p class='neon-text' style='color:#00ffff;'>¡Casi perfecto! Me encantas. 🥰</p>
+                <p class='neon-text' style='color:#00ffff;'>¡Casi perfecto! </p>
                 <div class="prize-media" style="background:#fff; padding:10px; border-radius:10px; border: 4px solid #e53935;">
                     <img src="assets/pollo_s.png" style="image-rendering: pixelated; width: 150px;">
                 </div>
@@ -235,7 +235,7 @@ function finalizar(modo) {
             `;
         } else if (score >= 5) { 
             prizeZone.innerHTML = `
-                <p class='neon-text' style='color:#0f0;'>¡A las justas, pero ganaste! 🥺</p>
+                <p class='neon-text' style='color:#0f0;'>¡Ajustando... pero ganaste! </p>
                 <div class="prize-media" style="position:relative; display:inline-block;">
                     <img src="assets/juego.jpg" style="border: 2px solid #0f0; filter: brightness(0.8);">
                     <p class="pixel-text" style="color:#fff; position:absolute; top: 10%; left: 0; width: 100%;">Válido por 1<br><br>juego sorpresa<br><br>en Steam</p>
